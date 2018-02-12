@@ -10,6 +10,7 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
@@ -17,6 +18,8 @@ public class BaseTest {
 	protected Properties properties;
 	Map<String, String> propertiesData = new HashMap<String, String>();
 	protected WebDriver driver;
+	protected EventFiringWebDriver eventDriver;
+	protected AutoLogger handler;
 	
 	@BeforeSuite
 	public Properties getPropertiesData(){
@@ -40,10 +43,16 @@ public class BaseTest {
 	public void launchBrowser(){
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Drivers\\chromedriver.exe");
 		driver = new ChromeDriver();
-		EventFiringWebDriver eventDriver = new EventFiringWebDriver(driver);
-		AutoLogger logger = new AutoLogger(this.getClass());
-		eventDriver.register(logger);
-		driver.manage().window().maximize();
-		driver.get(properties.getProperty("baseURL"));
+		eventDriver = new EventFiringWebDriver(driver);
+		handler = new AutoLogger();
+		eventDriver.register(handler);
+		eventDriver.manage().window().maximize();
+		eventDriver.get(properties.getProperty("baseURL"));
+	}
+	
+	@AfterSuite
+	public void quitBrowser(){
+		if(eventDriver != null)
+			eventDriver.quit();
 	}
 }

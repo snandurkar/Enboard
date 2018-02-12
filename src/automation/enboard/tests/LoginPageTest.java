@@ -12,7 +12,7 @@ public class LoginPageTest extends BaseTest{
 	@Test
 	public void loginTest(){
 		//Arrangement
-		loginPage = new LoginPage(driver);
+		loginPage = new LoginPage(eventDriver, handler);
 		//Act
 		loginPage.login(properties.getProperty("username"), properties.getProperty("password"));
 		//Assert

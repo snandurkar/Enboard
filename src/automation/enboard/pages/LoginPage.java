@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import automation.enboard.common.AutoLogger;
 import automation.enboard.common.BasePage;
 
 public class LoginPage extends BasePage {
@@ -18,12 +19,14 @@ public class LoginPage extends BasePage {
 	@FindBy(css = "button[class='btn btn-lg btn-info waves-effect waves-light m-t-10']")
 	WebElement loginBtn;
 	
-	@FindBy(name = "password")
+	@FindBy(id = "dropdownMenu1")
 	WebElement loggedInUser;
 	
-	public LoginPage(WebDriver driver){
+	public LoginPage(WebDriver driver, AutoLogger handler){
 		super(driver);
 		PageFactory.initElements(driver, this);
+		super.handler = handler;
+		handler.setCurrentPageClass(this.getClass());
 	}
 	
 	public void login(String username, String password){

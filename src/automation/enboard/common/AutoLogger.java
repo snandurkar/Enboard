@@ -16,10 +16,6 @@ public class AutoLogger implements WebDriverEventListener{
 	private Class<?> currentPageClass;
 	private static String pageURL;
 	private static String elementTag;
-	
-	public AutoLogger(Class<?> currentPageClass) {
-		this.currentPageClass = currentPageClass;
-	}
 
 	@Override
 	public void afterNavigateTo(String url, WebDriver driver) {
