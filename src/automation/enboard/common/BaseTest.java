@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
@@ -39,6 +40,9 @@ public class BaseTest {
 	public void launchBrowser(){
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Drivers\\chromedriver.exe");
 		driver = new ChromeDriver();
+		EventFiringWebDriver eventDriver = new EventFiringWebDriver(driver);
+		AutoLogger logger = new AutoLogger(this.getClass());
+		eventDriver.register(logger);
 		driver.manage().window().maximize();
 		driver.get(properties.getProperty("baseURL"));
 	}
