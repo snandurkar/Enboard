@@ -6,6 +6,7 @@
   <test name="Regression suite 1" >
     <classes>
       <class name="automation.enboard.tests.LoginPageTest"/>
+      <class name="automation.enboard.tests.PersonalDetailsTest"/>
     </classes>
  </test>
 </suite>
