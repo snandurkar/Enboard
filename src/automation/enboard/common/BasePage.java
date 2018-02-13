@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 public class BasePage {
 	protected BrowserActions actions;
-	WebDriver driver;
+	protected WebDriver driver;
 	protected AutoLogger handler;
 
 	public BasePage(WebDriver driver) {

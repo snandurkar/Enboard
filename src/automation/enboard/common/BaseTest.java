@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 public class BaseTest {
 	protected Properties properties;
@@ -21,7 +21,6 @@ public class BaseTest {
 	protected EventFiringWebDriver eventDriver;
 	protected AutoLogger handler;
 	
-	@BeforeSuite
 	public Properties getPropertiesData(){
 		try{
 			properties = new Properties();
@@ -39,7 +38,6 @@ public class BaseTest {
 		}
 	}
 	
-	@BeforeTest
 	public void launchBrowser(){
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Drivers\\chromedriver.exe");
 		driver = new ChromeDriver();
@@ -47,10 +45,17 @@ public class BaseTest {
 		handler = new AutoLogger();
 		eventDriver.register(handler);
 		eventDriver.manage().window().maximize();
+		eventDriver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		eventDriver.get(properties.getProperty("baseURL"));
 	}
 	
-	@AfterSuite
+	@BeforeClass
+	public void getEnvironmentReady(){
+		getPropertiesData();
+		launchBrowser();
+	}
+	
+	@AfterClass
 	public void quitBrowser(){
 		if(eventDriver != null)
 			eventDriver.quit();
